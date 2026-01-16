@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FileText, Download, ExternalLink } from "lucide-react";
+import { useLanguageStore } from "@/lib/languageStore";
+import { useState, useMemo } from "react";
 
 const publications = [
   {
@@ -41,15 +43,32 @@ const publications = [
 ];
 
 const Publications = () => {
+  const { t } = useLanguageStore();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedYear, setSelectedYear] = useState("all");
+
+  const filteredPublications = useMemo(() => {
+    return publications.filter((pub) => {
+      const matchesSearch = 
+        pub.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        pub.authors.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        pub.abstract.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      const matchesYear = selectedYear === "all" || pub.year.toString() === selectedYear;
+      
+      return matchesSearch && matchesYear;
+    });
+  }, [searchQuery, selectedYear]);
+  
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <Navbar />
       <main className="flex-grow pt-24">
         <div className="bg-slate-50 py-16 mb-12">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl font-bold text-primary mb-4">Publikasi Ilmiah</h1>
+            <h1 className="text-4xl font-bold text-primary mb-4">{t("Publikasi Ilmiah", "Scientific Publications")}</h1>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Diseminasi hasil riset CIMEDs UGM dalam jurnal internasional bereputasi dan prosiding konferensi.
+              {t("Diseminasi hasil riset CIMEDs UGM dalam jurnal internasional bereputasi dan prosiding konferensi.", "Dissemination of CIMEDs UGM research results in reputable international journals and conference proceedings.")}
             </p>
           </div>
         </div>
@@ -58,62 +77,72 @@ const Publications = () => {
           {/* Controls */}
           <div className="flex flex-col md:flex-row gap-4 mb-10 bg-white p-4 rounded-xl border shadow-xs">
             <div className="flex-1">
-              <Input placeholder="Cari judul paper, penulis, atau kata kunci..." />
+              <Input 
+                placeholder={t("Cari judul paper, penulis, atau kata kunci...", "Search title, author, or keywords...")}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
             <div className="w-full md:w-48">
-              <Select>
+              <Select value={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Tahun" />
+                  <SelectValue placeholder={t("Tahun", "Year")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Semua Tahun</SelectItem>
+                  <SelectItem value="all">{t("Semua Tahun", "All Years")}</SelectItem>
                   <SelectItem value="2025">2025</SelectItem>
                   <SelectItem value="2024">2024</SelectItem>
                   <SelectItem value="2023">2023</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <Button className="md:w-auto">Filter</Button>
+            <Button className="md:w-auto">{t("Filter", "Filter")}</Button>
           </div>
 
           {/* List */}
           <div className="space-y-6">
-            {publications.map((paper, idx) => (
-              <div key={idx} className="bg-white p-6 md:p-8 rounded-xl border border-gray-100 shadow-xs hover:shadow-md transition-shadow group">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-bold rounded">
-                        {paper.year}
-                      </span>
-                      <span className="text-sm text-gray-500 font-medium italic">
-                        {paper.journal}
-                      </span>
+            {filteredPublications.length > 0 ? (
+              filteredPublications.map((paper, idx) => (
+                <div key={idx} className="bg-white p-6 md:p-8 rounded-xl border border-gray-100 shadow-xs hover:shadow-md transition-shadow group">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-bold rounded">
+                          {paper.year}
+                        </span>
+                        <span className="text-sm text-gray-500 font-medium italic">
+                          {paper.journal}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">
+                        {paper.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm mb-4 font-medium">
+                        {paper.authors}
+                      </p>
+                      <p className="text-gray-500 text-sm mb-4 line-clamp-2">
+                        {paper.abstract}
+                      </p>
+                      <div className="flex flex-wrap gap-4">
+                        <a href="#" className="flex items-center text-sm text-primary font-semibold hover:underline">
+                          <ExternalLink className="w-4 h-4 mr-1" /> View DOI
+                        </a>
+                        <a href="#" className="flex items-center text-sm text-gray-500 hover:text-gray-900">
+                          <Download className="w-4 h-4 mr-1" /> Download Citation
+                        </a>
+                      </div>
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">
-                      {paper.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4 font-medium">
-                      {paper.authors}
-                    </p>
-                    <p className="text-gray-500 text-sm mb-4 line-clamp-2">
-                      {paper.abstract}
-                    </p>
-                    <div className="flex flex-wrap gap-4">
-                      <a href="#" className="flex items-center text-sm text-primary font-semibold hover:underline">
-                        <ExternalLink className="w-4 h-4 mr-1" /> View DOI
-                      </a>
-                      <a href="#" className="flex items-center text-sm text-gray-500 hover:text-gray-900">
-                        <Download className="w-4 h-4 mr-1" /> Download Citation
-                      </a>
+                    <div className="hidden md:block p-3 bg-gray-50 rounded-full text-gray-300 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                      <FileText className="w-6 h-6" />
                     </div>
-                  </div>
-                  <div className="hidden md:block p-3 bg-gray-50 rounded-full text-gray-300 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                    <FileText className="w-6 h-6" />
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="text-center py-12 text-gray-500">
+                <p>{t("Tidak ada publikasi yang sesuai dengan pencarian.", "No publications match your search.")}</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </main>

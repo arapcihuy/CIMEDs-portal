@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Activity, Microscope, Award } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguageStore } from "@/lib/languageStore";
+import { Link } from "wouter";
 import heroBg from "@assets/stock_images/modern_biomedical_re_c16c1cf4.jpg";
 
 const Hero = () => {
@@ -34,13 +35,17 @@ const Hero = () => {
             )}
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }} className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white h-14 px-8 text-lg rounded-full">
-              {t("Jelajahi Inovasi", "Explore Innovations")} <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full bg-white/10 text-white border-white/20 hover:bg-white/20 hover:text-white backdrop-blur-sm">
-              {t("Hubungi Kami", "Contact Us")}
-            </Button>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <Link href="/products">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full w-full sm:w-auto">
+                {t("Jelajahi Inovasi", "Explore Innovations")} <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+              </Button>
+            </Link>
+            <Link href="/partnership">
+              <Button size="lg" variant="outline" className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full bg-white/10 text-white border-white/20 hover:bg-white/20 hover:text-white backdrop-blur-sm w-full sm:w-auto">
+                {t("Hubungi Kami", "Contact Us")}
+              </Button>
+            </Link>
           </motion.div>
           
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 1 }} className="grid grid-cols-3 gap-4 md:gap-8 mt-12 md:mt-20 border-t border-white/10 pt-8">

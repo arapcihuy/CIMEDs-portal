@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { useLanguageStore } from "@/lib/languageStore";
 import microImg from "@assets/stock_images/medical_laboratory_m_15058f68.jpg";
 
 const projects = [
@@ -36,15 +37,17 @@ const projects = [
 ];
 
 const Research = () => {
+  const { t } = useLanguageStore();
+  
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <Navbar />
       <main className="flex-grow pt-24">
         <div className="container mx-auto px-4 mb-16">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">Penelitian Aktif</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">{t("Penelitian Aktif", "Active Research")}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Fokus riset kami mencakup biomaterial, biomekanika, instrumentasi medis, dan teknologi rehabilitasi.
+              {t("Fokus riset kami mencakup biomaterial, biomekanika, instrumentasi medis, dan teknologi rehabilitasi.", "Our research focuses on biomaterials, biomechanics, medical instrumentation, and rehabilitation technology.")}
             </p>
           </div>
 
@@ -71,13 +74,13 @@ const Research = () => {
                     {project.title}
                   </h2>
                   <div className="text-sm font-semibold text-secondary-foreground/80 bg-secondary/20 inline-block px-3 py-1 rounded-md">
-                    Didukung oleh: {project.funder}
+                    {t("Didukung oleh:", "Funded by:")} {project.funder}
                   </div>
                   <p className="text-gray-600 leading-relaxed">
                     {project.desc}
                   </p>
                   <Button variant="link" className="p-0 h-auto text-primary font-bold hover:text-blue-800 text-lg group">
-                    Baca Selengkapnya <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    {t("Baca Selengkapnya", "Read More")} <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>
               </div>

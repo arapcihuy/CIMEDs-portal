@@ -18,6 +18,9 @@ const Navbar = () => {
   const [location] = useLocation();
   const { language, setLanguage, t } = useLanguageStore();
 
+  // Check if we're on the home page
+  const isHomePage = location === "/";
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -41,8 +44,8 @@ const Navbar = () => {
     <nav
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300 border-b",
-        isScrolled
-          ? "bg-white/90 backdrop-blur-md border-gray-200 shadow-sm py-2"
+        isScrolled || !isHomePage
+          ? "bg-white/95 backdrop-blur-md border-gray-200 shadow-sm py-2"
           : "bg-transparent border-transparent py-4"
       )}
     >
@@ -53,10 +56,10 @@ const Navbar = () => {
               C
             </div>
             <div className="flex flex-col">
-              <span className={cn("font-bold text-lg leading-none transition-colors", isScrolled ? "text-primary" : "text-white")}>
+              <span className={cn("font-bold text-lg leading-none transition-colors", isScrolled || !isHomePage ? "text-primary" : "text-white")}>
                 CIMEDs UGM
               </span>
-              <span className={cn("text-xs font-medium tracking-wider", isScrolled ? "text-gray-600" : "text-gray-200")}>
+              <span className={cn("text-xs font-medium tracking-wider", isScrolled || !isHomePage ? "text-gray-600" : "text-gray-200")}>
                 {t("Pusat Riset Biomedis", "Biomedical Research Center")}
               </span>
             </div>
@@ -72,9 +75,14 @@ const Navbar = () => {
                     <NavigationMenuLink
                       className={cn(
                         navigationMenuTriggerStyle(),
-                        "bg-transparent hover:bg-white/10 hover:text-primary",
-                        location === link.href && "text-primary font-semibold",
-                        !isScrolled && "text-white hover:text-white"
+                        "transition-colors bg-transparent",
+                        location === link.href 
+                          ? isScrolled || !isHomePage
+                            ? "text-primary font-semibold bg-primary/10"
+                            : "text-white font-semibold bg-white/20"
+                          : isScrolled || !isHomePage
+                            ? "text-gray-700 hover:text-primary hover:bg-primary/5"
+                            : "text-white/90 hover:text-white hover:bg-white/10"
                       )}
                     >
                       {link.label}
@@ -89,11 +97,16 @@ const Navbar = () => {
             <Button
               variant="ghost"
               size="sm"
-              className={cn("gap-2", !isScrolled && "text-white hover:bg-white/10")}
+              className={cn(
+                "gap-2 h-9 px-3",
+                isScrolled || !isHomePage 
+                  ? "text-gray-700 hover:text-primary hover:bg-primary/5" 
+                  : "text-white hover:bg-white/10 hover:text-white"
+              )}
               onClick={() => setLanguage(language === 'ID' ? 'EN' : 'ID')}
             >
               <Globe className="h-4 w-4" />
-              <span>{language}</span>
+              <span className="text-sm">{language}</span>
             </Button>
           </div>
         </div>
@@ -102,15 +115,29 @@ const Navbar = () => {
           <Button
             variant="ghost"
             size="sm"
-            className={cn(!isScrolled && "text-white")}
+            className={cn(
+              "h-9 px-3 text-sm",
+              isScrolled || !isHomePage 
+                ? "text-gray-700 hover:text-primary" 
+                : "text-white hover:text-white"
+            )}
             onClick={() => setLanguage(language === 'ID' ? 'EN' : 'ID')}
           >
             {language}
           </Button>
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className={!isScrolled ? "text-white" : ""}>
-                <Menu className="h-6 w-6" />
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className={cn(
+                  "h-9 w-9",
+                  isScrolled || !isHomePage 
+                    ? "text-gray-700 hover:text-primary" 
+                    : "text-white hover:text-white"
+                )}
+              >
+                <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px]">

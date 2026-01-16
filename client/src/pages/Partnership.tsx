@@ -10,6 +10,7 @@ import * as z from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Building2, Handshake, University } from "lucide-react";
+import { useLanguageStore } from "@/lib/languageStore";
 
 const formSchema = z.object({
   name: z.string().min(2, "Nama harus diisi"),
@@ -21,6 +22,7 @@ const formSchema = z.object({
 
 const Partnership = () => {
   const { toast } = useToast();
+  const { t } = useLanguageStore();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,8 +37,8 @@ const Partnership = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     toast({
-      title: "Permintaan Terkirim",
-      description: "Tim kami akan segera menghubungi Anda untuk diskusi lebih lanjut.",
+      title: t("Permintaan Terkirim", "Request Sent"),
+      description: t("Tim kami akan segera menghubungi Anda untuk diskusi lebih lanjut.", "Our team will contact you shortly for further discussion."),
     });
     form.reset();
   }
@@ -47,9 +49,9 @@ const Partnership = () => {
       <main className="flex-grow pt-24">
         <div className="bg-primary text-white py-16">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl font-bold mb-4">Kerjasama & Kolaborasi</h1>
+            <h1 className="text-4xl font-bold mb-4">{t("Kerjasama & Kolaborasi", "Partnership & Collaboration")}</h1>
             <p className="text-blue-100 max-w-2xl mx-auto">
-              Bergabunglah dengan ekosistem inovasi kami. Kami terbuka untuk kolaborasi riset, hilirisasi produk, dan layanan pengujian.
+              {t("Bergabunglah dengan ekosistem inovasi kami. Kami terbuka untuk kolaborasi riset, hilirisasi produk, dan layanan pengujian.", "Join our innovation ecosystem. We are open to research collaboration, product commercialization, and testing services.")}
             </p>
           </div>
         </div>
@@ -59,7 +61,7 @@ const Partnership = () => {
             
             {/* Info Section */}
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Skema Kerjasama</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("Skema Kerjasama", "Partnership Schemes")}</h2>
               <div className="grid grid-cols-1 gap-6 mb-12">
                 <Card>
                   <CardContent className="p-6 flex gap-4">
@@ -67,9 +69,9 @@ const Partnership = () => {
                       <Building2 className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg mb-2">Hilirisasi Industri</h3>
+                      <h3 className="font-bold text-lg mb-2">{t("Hilirisasi Industri", "Industrial Commercialization")}</h3>
                       <p className="text-gray-600 text-sm">
-                        Lisensi paten dan kerjasama produksi massal alat kesehatan hasil riset CIMEDs dengan mitra industri manufaktur.
+                        {t("Lisensi paten dan kerjasama produksi massal alat kesehatan hasil riset CIMEDs dengan mitra industri manufaktur.", "Patent licensing and mass production collaboration of CIMEDs research medical devices with manufacturing industry partners.")}
                       </p>
                     </div>
                   </CardContent>
@@ -80,9 +82,9 @@ const Partnership = () => {
                       <University className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg mb-2">Riset Akademik</h3>
+                      <h3 className="font-bold text-lg mb-2">{t("Riset Akademik", "Academic Research")}</h3>
                       <p className="text-gray-600 text-sm">
-                        Kolaborasi penelitian bersama universitas dalam dan luar negeri, pertukaran peneliti, dan publikasi bersama.
+                        {t("Kolaborasi penelitian bersama universitas dalam dan luar negeri, pertukaran peneliti, dan publikasi bersama.", "Research collaboration with domestic and international universities, researcher exchange, and joint publications.")}
                       </p>
                     </div>
                   </CardContent>
@@ -93,9 +95,9 @@ const Partnership = () => {
                       <Handshake className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg mb-2">Pengujian & Konsultasi</h3>
+                      <h3 className="font-bold text-lg mb-2">{t("Pengujian & Konsultasi", "Testing & Consultation")}</h3>
                       <p className="text-gray-600 text-sm">
-                        Layanan uji mekanik, biokompatibilitas material, dan konsultasi desain alat kesehatan.
+                        {t("Layanan uji mekanik, biokompatibilitas material, dan konsultasi desain alat kesehatan.", "Mechanical testing services, material biocompatibility, and medical device design consultation.")}
                       </p>
                     </div>
                   </CardContent>
@@ -105,7 +107,7 @@ const Partnership = () => {
 
             {/* Form Section */}
             <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 h-fit">
-              <h3 className="text-xl font-bold mb-6">Ajukan Penawaran Kerjasama</h3>
+              <h3 className="text-xl font-bold mb-6">{t("Ajukan Penawaran Kerjasama", "Submit Partnership Proposal")}</h3>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <FormField
@@ -113,9 +115,9 @@ const Partnership = () => {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Nama Lengkap</FormLabel>
+                        <FormLabel>{t("Nama Lengkap", "Full Name")}</FormLabel>
                         <FormControl>
-                          <Input placeholder="Nama Anda" {...field} />
+                          <Input placeholder={t("Nama Anda", "Your Name")} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -126,7 +128,7 @@ const Partnership = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email Institusi</FormLabel>
+                        <FormLabel>{t("Email Institusi", "Institution Email")}</FormLabel>
                         <FormControl>
                           <Input placeholder="email@instansi.com" {...field} />
                         </FormControl>
@@ -139,7 +141,7 @@ const Partnership = () => {
                     name="organization"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Nama Instansi / Perusahaan</FormLabel>
+                        <FormLabel>{t("Nama Instansi / Perusahaan", "Institution / Company Name")}</FormLabel>
                         <FormControl>
                           <Input placeholder="Universitas Gadjah Mada" {...field} />
                         </FormControl>
@@ -152,10 +154,10 @@ const Partnership = () => {
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Pesan / Bentuk Kerjasama</FormLabel>
+                        <FormLabel>{t("Pesan / Bentuk Kerjasama", "Message / Partnership Type")}</FormLabel>
                         <FormControl>
                           <Textarea 
-                            placeholder="Jelaskan secara singkat bentuk kerjasama yang diinginkan..." 
+                            placeholder={t("Jelaskan secara singkat bentuk kerjasama yang diinginkan...", "Briefly explain the type of partnership you want...")} 
                             className="resize-none h-32"
                             {...field} 
                           />
@@ -164,7 +166,7 @@ const Partnership = () => {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full h-12 text-lg">Kirim Penawaran</Button>
+                  <Button type="submit" className="w-full h-12 text-lg">{t("Kirim Penawaran", "Send Proposal")}</Button>
                 </form>
               </Form>
             </div>
