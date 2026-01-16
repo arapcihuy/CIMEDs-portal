@@ -5,18 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import { useLanguageStore } from "@/lib/languageStore";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [location] = useLocation();
+  const { language, setLanguage, t } = useLanguageStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,14 +27,14 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/team", label: "Tim Peneliti" },
-    { href: "/products", label: "Produk" },
-    { href: "/research", label: "Penelitian" },
-    { href: "/publications", label: "Publikasi" },
-    { href: "/services", label: "Layanan Lab" },
-    { href: "/news", label: "Berita" },
-    { href: "/partnership", label: "Kerjasama" },
+    { href: "/", label: t("Beranda", "Home") },
+    { href: "/team", label: t("Tim", "Team") },
+    { href: "/products", label: t("Produk", "Products") },
+    { href: "/research", label: t("Riset", "Research") },
+    { href: "/publications", label: t("Publikasi", "Publications") },
+    { href: "/services", label: t("Layanan", "Services") },
+    { href: "/news", label: t("Berita", "News") },
+    { href: "/partnership", label: t("Kerjasama", "Partnership") },
   ];
 
   return (
@@ -47,7 +47,6 @@ const Navbar = () => {
       )}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
-        {/* Logo */}
         <Link href="/">
           <a className="flex items-center gap-2 group">
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-xl group-hover:scale-105 transition-transform">
@@ -58,14 +57,13 @@ const Navbar = () => {
                 CIMEDs UGM
               </span>
               <span className={cn("text-xs font-medium tracking-wider", isScrolled ? "text-gray-600" : "text-gray-200")}>
-                Pusat Riset Biomedis
+                {t("Pusat Riset Biomedis", "Biomedical Research Center")}
               </span>
             </div>
           </a>
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-4">
           <NavigationMenu>
             <NavigationMenuList>
               {navLinks.map((link) => (
@@ -74,7 +72,7 @@ const Navbar = () => {
                     <NavigationMenuLink
                       className={cn(
                         navigationMenuTriggerStyle(),
-                        "bg-transparent hover:bg-white/10 hover:text-primary data-[active]:bg-white/20",
+                        "bg-transparent hover:bg-white/10 hover:text-primary",
                         location === link.href && "text-primary font-semibold",
                         !isScrolled && "text-white hover:text-white"
                       )}
@@ -87,51 +85,43 @@ const Navbar = () => {
             </NavigationMenuList>
           </NavigationMenu>
 
-          <div className="flex items-center gap-2 border-l pl-6 border-gray-200/20">
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn("rounded-full", !isScrolled && "text-white hover:bg-white/10")}
-            >
-              <Search className="h-5 w-5" />
-            </Button>
+          <div className="flex items-center gap-2 border-l pl-4 border-gray-200/20">
             <Button
               variant="ghost"
               size="sm"
               className={cn("gap-2", !isScrolled && "text-white hover:bg-white/10")}
+              onClick={() => setLanguage(language === 'ID' ? 'EN' : 'ID')}
             >
               <Globe className="h-4 w-4" />
-              <span>EN</span>
+              <span>{language}</span>
             </Button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <div className="lg:hidden flex items-center gap-4">
+        <div className="lg:hidden flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn(!isScrolled && "text-white")}
+            onClick={() => setLanguage(language === 'ID' ? 'EN' : 'ID')}
+          >
+            {language}
+          </Button>
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className={!isScrolled ? "text-white" : ""}>
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-              <div className="flex flex-col gap-6 mt-10">
+            <SheetContent side="right" className="w-[300px]">
+              <div className="flex flex-col gap-4 mt-10">
                 {navLinks.map((link) => (
                   <Link key={link.href} href={link.href}>
-                    <a
-                      className={cn(
-                        "text-lg font-medium transition-colors hover:text-primary",
-                        location === link.href ? "text-primary" : "text-gray-600"
-                      )}
-                    >
+                    <a className={cn("text-lg font-medium", location === link.href ? "text-primary" : "text-gray-600")}>
                       {link.label}
                     </a>
                   </Link>
                 ))}
-                <div className="h-px bg-gray-100 my-2" />
-                <Button variant="outline" className="justify-start gap-2">
-                  <Globe className="h-4 w-4" /> Switch to English
-                </Button>
               </div>
             </SheetContent>
           </Sheet>

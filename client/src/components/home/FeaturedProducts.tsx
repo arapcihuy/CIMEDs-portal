@@ -1,80 +1,74 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUpRight } from "lucide-react";
-import { Button } from "@/components/ui/button"; // Added import
+import { Button } from "@/components/ui/button";
+import { useLanguageStore } from "@/lib/languageStore";
 import faceShieldImg from "@assets/stock_images/medical_face_shield__0399bc52.jpg";
 import implantImg from "@assets/stock_images/orthopedic_bone_impl_5e638388.jpg";
 
-const products = [
-  {
-    id: 1,
-    title: "Face Shield Medis High-Grade",
-    category: "Alat Pelindung Diri",
-    image: faceShieldImg,
-    desc: "Pelindung wajah standar medis dengan material polikarbonat tahan benturan dan anti-fog, dikembangkan khusus untuk tenaga medis COVID-19.",
-    specs: ["Polycarbonate 2mm", "Anti-fog coating", "Adjustable strap"]
-  },
-  {
-    id: 2,
-    title: "Bone Implant Titanium",
-    category: "Implan Ortopedi",
-    image: implantImg,
-    desc: "Implan tulang berbahan titanium alloy biokompatibel dengan struktur pori terkontrol untuk mempercepat osseointegrasi.",
-    specs: ["Ti-6Al-4V ELI", "Porous structure", "Custom size available"]
-  },
-  {
-    id: 3,
-    title: "Kaki Palsu Bawah Lutut",
-    category: "Prostetik",
-    image: "https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=2070&auto=format&fit=crop", // Placeholder if specific not found
-    desc: "Prostetik kaki dinamis dengan material komposit karbon ringan, memberikan mobilitas maksimal bagi penyandang disabilitas.",
-    specs: ["Carbon composite", "Dynamic response", "Lightweight"]
-  },
-  {
-    id: 4,
-    title: "Pembuka Pintu No-Touch",
-    category: "Alat Kesehatan Preventif",
-    image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=2073&auto=format&fit=crop",
-    desc: "Alat bantu membuka pintu tanpa sentuhan tangan langsung untuk meminimalisir penyebaran patogen di area publik.",
-    specs: ["Ergonomic design", "Durable material", "Universal fit"]
-  }
-];
-
 const FeaturedProducts = () => {
+  const { t } = useLanguageStore();
+
+  const products = [
+    {
+      id: 1,
+      title: t("Face Shield Medis High-Grade", "Medical Grade Face Shield"),
+      category: t("Alat Pelindung Diri", "Personal Protective Equipment"),
+      image: faceShieldImg,
+      desc: t("Pelindung wajah standar medis dengan material polikarbonat tahan benturan.", "Medical standard face shield with impact-resistant polycarbonate material."),
+      specs: ["Polycarbonate 2mm", "Anti-fog", "Adjustable"]
+    },
+    {
+      id: 2,
+      title: t("Bone Implant Titanium", "Titanium Bone Implant"),
+      category: t("Implan Ortopedi", "Orthopedic Implant"),
+      image: implantImg,
+      desc: t("Implan tulang berbahan titanium alloy biokompatibel dengan struktur pori terkontrol.", "Titanium alloy biocompatible bone implant with controlled porous structure."),
+      specs: ["Ti-6Al-4V ELI", "Porous", "Customizable"]
+    },
+    {
+      id: 3,
+      title: t("Kaki Palsu Bawah Lutut", "Transtibial Prosthesis"),
+      category: t("Prostetik", "Prosthetics"),
+      image: "https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=2070&auto=format&fit=crop",
+      desc: t("Prostetik kaki dinamis dengan material komposit karbon ringan.", "Dynamic foot prosthesis with lightweight carbon composite material."),
+      specs: ["Carbon composite", "Dynamic", "Lightweight"]
+    },
+    {
+      id: 4,
+      title: t("Pembuka Pintu No-Touch", "No-Touch Door Opener"),
+      category: t("Preventif", "Preventive"),
+      image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=2073&auto=format&fit=crop",
+      desc: t("Alat bantu membuka pintu tanpa sentuhan tangan langsung.", "Helper tool for opening doors without direct hand contact."),
+      specs: ["Ergonomic", "Universal", "Durable"]
+    }
+  ];
+
   return (
     <section className="py-24 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-end mb-12">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Inovasi Unggulan</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">{t("Inovasi Unggulan", "Key Innovations")}</h2>
             <p className="text-gray-600 max-w-xl">
-              Produk hasil riset yang telah dihilirisasi dan digunakan oleh masyarakat serta fasilitas kesehatan di Indonesia.
+              {t("Produk hasil riset yang telah dihilirisasi dan digunakan oleh masyarakat.", "Research products that have been downstreamed and used by the community.")}
             </p>
           </div>
-          <a href="/products" className="hidden md:flex items-center text-primary font-semibold hover:text-blue-700 transition-colors">
-            Lihat Semua Produk <ArrowUpRight className="ml-2 w-4 h-4" />
+          <a href="/products" className="flex items-center text-primary font-semibold hover:text-blue-700 transition-colors">
+            {t("Lihat Semua Produk", "View All Products")} <ArrowUpRight className="ml-2 w-4 h-4" />
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product) => (
             <Card key={product.id} className="group overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300">
               <div className="relative h-64 overflow-hidden">
                 <div className="absolute top-4 left-4 z-10">
-                  <Badge variant="secondary" className="bg-white/90 text-primary hover:bg-white backdrop-blur-sm">
+                  <Badge variant="secondary" className="bg-white/90 text-primary backdrop-blur-sm">
                     {product.category}
                   </Badge>
                 </div>
-                <img 
-                  src={product.image} 
-                  alt={product.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                  <span className="text-white font-medium flex items-center gap-2">
-                    Lihat Detail <ArrowUpRight className="w-4 h-4" />
-                  </span>
-                </div>
+                <img src={product.image} alt={product.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
               </div>
               <CardContent className="p-6 bg-white">
                 <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-1 group-hover:text-primary transition-colors">
@@ -93,10 +87,6 @@ const FeaturedProducts = () => {
               </CardContent>
             </Card>
           ))}
-        </div>
-        
-        <div className="mt-8 text-center md:hidden">
-          <Button variant="outline" className="w-full">Lihat Semua Produk</Button>
         </div>
       </div>
     </section>
