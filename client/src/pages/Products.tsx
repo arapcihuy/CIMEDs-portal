@@ -4,18 +4,29 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, X } from "lucide-react";
 import { useLanguageStore } from "@/lib/languageStore";
 import faceShieldImg from "@assets/stock_images/medical_face_shield__0399bc52.jpg";
 import implantImg from "@assets/stock_images/orthopedic_bone_impl_5e638388.jpg";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useLocation } from "wouter";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Products = () => {
-  const { t } = useLanguageStore();
+  const { t, language } = useLanguageStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<typeof allProducts[0] | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [, setLocation] = useLocation();
   
-  const allProducts = [
+  const allProducts = useMemo(() => [
     {
       id: 1,
       title: t("Face Shield Medis High-Grade", "Medical Grade Face Shield"),
@@ -64,15 +75,15 @@ const Products = () => {
       desc: t("Sistem sekrup tulang presisi tinggi untuk fiksasi fraktur.", "High-precision bone screw system for fracture fixation."),
       specs: ["Stainless Steel 316L", "High Strength", "Various Sizes"]
     }
-  ];
+  ], [language, t]);
 
-  const categories = [
+  const categories = useMemo(() => [
     t("Semua Kategori", "All Categories"),
     t("Implan Ortopedi", "Orthopedic Implants"),
     t("Prostetik", "Prosthetics"),
     t("Alat Pelindung Diri", "Personal Protective Equipment"),
     t("Alat Kesehatan", "Medical Devices")
-  ];
+  ], [language, t]);
 
   const handleCategoryChange = (category: string) => {
     if (category === t("Semua Kategori", "All Categories")) {
@@ -97,7 +108,12 @@ const Products = () => {
 
       return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, selectedCategories]);
+  }, [searchQuery, selectedCategories, allProducts]);
+
+  // Reset selected categories when language changes
+  useEffect(() => {
+    setSelectedCategories([]);
+  }, [language]);
   
   return (
     <div className="min-h-screen flex flex-col font-sans">
@@ -181,7 +197,16 @@ const Products = () => {
                             </span>
                           ))}
                         </div>
-                        <Button className="w-full" variant="outline">{t("Lihat Spesifikasi", "View Specifications")}</Button>
+                        <Button 
+                          className="w-full" 
+                          variant="outline"
+                          onClick={() => {
+                            setSelectedProduct(product);
+                            setIsDialogOpen(true);
+                          }}
+                        >
+                          {t("Lihat Spesifikasi", "View Specifications")}
+                        </Button>
                       </CardContent>
                     </Card>
                   ))
@@ -195,6 +220,60 @@ const Products = () => {
           </div>
         </div>
       </main>
+      
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          {selectedProduct && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold text-primary">
+                  {selectedProduct.title}
+                </DialogTitle>
+                <DialogDescription className="text-sm text-gray-500">
+                  {selectedProduct.category}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-6 mt-4">
+                <div className="w-full h-64 rounded-lg overflow-hidden">
+                  <img 
+                    src={selectedProduct.image} 
+                    alt={selectedProduct.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h4 className="font-bold text-lg mb-2">{t("Deskripsi", "Description")}</h4>
+                  <p className="text-gray-600">{selectedProduct.desc}</p>
+                </div>
+                <div>
+                  <h4 className="font-bold text-lg mb-3">{t("Spesifikasi", "Specifications")}</h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    {selectedProduct.specs.map((spec, i) => (
+                      <div key={i} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border">
+                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                        <span className="text-sm text-gray-700">{spec}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex gap-3 pt-4 border-t">
+                  <Button 
+                    className="flex-1"
+                    onClick={() => {
+                      setIsDialogOpen(false);
+                      setLocation("/partnership");
+                    }}
+                  >
+                    {t("Hubungi Kami", "Contact Us")}
+                  </Button>
+                  <Button variant="outline" onClick={() => setIsDialogOpen(false)}>{t("Tutup", "Close")}</Button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+      
       <Footer />
     </div>
   );

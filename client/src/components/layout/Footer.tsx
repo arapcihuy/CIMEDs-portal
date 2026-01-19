@@ -71,16 +71,16 @@ const Footer = () => {
           <div>
             <h4 className="font-bold text-lg mb-6 text-secondary">{t("Ikuti Kami", "Follow Us")}</h4>
             <div className="flex gap-4 mb-8">
-              <a href="#" title="Instagram" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+              <a href="https://www.instagram.com/ugm.yogyakarta/" target="_blank" rel="noopener noreferrer" title="Instagram" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" title="Facebook" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+              <a href="https://www.facebook.com/UGMYogyakarta" target="_blank" rel="noopener noreferrer" title="Facebook" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" title="LinkedIn" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+              <a href="https://www.linkedin.com/school/universitas-gadjah-mada/" target="_blank" rel="noopener noreferrer" title="LinkedIn" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href="#" title="Twitter" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+              <a href="https://twitter.com/UGMYogyakarta" target="_blank" rel="noopener noreferrer" title="Twitter" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
                 <Twitter className="w-5 h-5" />
               </a>
             </div>
@@ -90,9 +90,9 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
           <p>{t("© 2024 CIMEDs Universitas Gadjah Mada. Hak cipta dilindungi.", "© 2024 CIMEDs Universitas Gadjah Mada. All rights reserved.")}</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white">{t("Kebijakan Privasi", "Privacy Policy")}</a>
-            <a href="#" className="hover:text-white">{t("Ketentuan Layanan", "Terms of Service")}</a>
-            <a href="#" className="hover:text-white">{t("Peta Situs", "Sitemap")}</a>
+            <Link href="/partnership"><a className="hover:text-white">{t("Kebijakan Privasi", "Privacy Policy")}</a></Link>
+            <Link href="/partnership"><a className="hover:text-white">{t("Ketentuan Layanan", "Terms of Service")}</a></Link>
+            <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="hover:text-white">{t("Kembali ke Atas", "Back to Top")}</button>
           </div>
         </div>
       </div>

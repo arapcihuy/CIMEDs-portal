@@ -2,13 +2,16 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, Microscope, TestTube2, FlaskConical } from "lucide-react";
+import { FlaskConical, Microscope, TestTube, CheckCircle2 } from "lucide-react";
 import { useLanguageStore } from "@/lib/languageStore";
+import { useMemo } from "react";
+import { useLocation } from "wouter";
 
 const Services = () => {
-  const { t } = useLanguageStore();
+  const { t, language } = useLanguageStore();
+  const [, setLocation] = useLocation();
   
-  const services = [
+  const services = useMemo(() => [
     {
       icon: Microscope,
       title: t("Uji Material & Karakterisasi", "Material Testing & Characterization"),
@@ -16,7 +19,7 @@ const Services = () => {
       features: ["SEM-EDX Analysis", "XRD Analysis", t("Uji Kekasaran Permukaan", "Surface Roughness Test"), t("Uji Kekerasan Mikro", "Microhardness Test")]
     },
     {
-      icon: TestTube2,
+      icon: TestTube,
       title: t("Uji Biokompatibilitas", "Biocompatibility Testing"),
       price: t("Mulai Rp 1.500.000", "Starting from IDR 1,500,000"),
       features: [t("Uji Sitotoksisitas (MTT Assay)", "Cytotoxicity Test (MTT Assay)"), t("Uji Hemolisis", "Hemolysis Test"), t("Uji Iritasi", "Irritation Test"), t("Uji Sensitisasi", "Sensitization Test")]
@@ -27,7 +30,7 @@ const Services = () => {
       price: t("Mulai Rp 750.000", "Starting from IDR 750,000"),
       features: [t("Uji Tarik & Kompresi", "Tensile & Compression Test"), t("Uji Kelelahan", "Fatigue Test"), t("Uji Torsi", "Torsion Test"), t("Uji Keausan & Friksi", "Wear & Friction Test")]
     }
-  ];
+  ], [language, t]);
   
   return (
     <div className="min-h-screen flex flex-col font-sans">
@@ -62,7 +65,12 @@ const Services = () => {
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full">{t("Booking Jadwal", "Book Schedule")}</Button>
+                  <Button 
+                    className="w-full"
+                    onClick={() => setLocation("/partnership")}
+                  >
+                    {t("Booking Jadwal", "Book Schedule")}
+                  </Button>
                 </CardContent>
               </Card>
             ))}
@@ -73,7 +81,13 @@ const Services = () => {
             <p className="text-gray-600 max-w-2xl mx-auto mb-8">
               {t("Kami juga melayani konsultasi desain eksperimen dan pembuatan prototipe alat kesehatan sesuai spesifikasi Anda.", "We also provide experiment design consultation and medical device prototype manufacturing according to your specifications.")}
             </p>
-            <Button variant="outline" size="lg">{t("Hubungi Lab Manager", "Contact Lab Manager")}</Button>
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => setLocation("/partnership")}
+            >
+              {t("Hubungi Lab Manager", "Contact Lab Manager")}
+            </Button>
           </div>
         </div>
       </main>

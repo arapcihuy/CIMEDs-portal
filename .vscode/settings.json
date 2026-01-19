@@ -1,0 +1,8 @@
+{
+  "json.schemaDownload.enable": true,
+  "json.validate.enable": true,
+  "json.maxItemsComputed": 5000,
+  "files.associations": {
+    "package.json": "json"
+  }
+}

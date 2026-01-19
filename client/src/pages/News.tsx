@@ -4,12 +4,22 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, User, ArrowRight } from "lucide-react";
 import { useLanguageStore } from "@/lib/languageStore";
+import { useMemo, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const News = () => {
-  const { t } = useLanguageStore();
+  const { t, language } = useLanguageStore();
+  const [selectedNews, setSelectedNews] = useState<typeof newsItems[0] | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(4);
   
   // Move news items inside component so they can use `t()` for bilingual content
-  const newsItems = [
+  const newsItems = useMemo(() => [
     {
       id: 1,
       title: t(
@@ -70,7 +80,7 @@ const News = () => {
       ),
       image: "https://images.unsplash.com/photo-1516574187841-69301976e499?q=80&w=2070&auto=format&fit=crop",
     },
-  ];
+  ], [language, t]);
   
   return (
     <div className="min-h-screen flex flex-col font-sans">
@@ -83,8 +93,15 @@ const News = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {newsItems.map((news) => (
-              <div key={news.id} className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+            {newsItems.slice(0, visibleCount).map((news) => (
+              <div 
+                key={news.id} 
+                className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
+                onClick={() => {
+                  setSelectedNews(news);
+                  setIsDialogOpen(true);
+                }}
+              >
                 <div className="h-64 overflow-hidden relative">
                   <Badge className="absolute top-4 left-4 z-10 bg-white/90 text-primary hover:bg-white">
                     {news.category}
@@ -114,11 +131,93 @@ const News = () => {
             ))}
           </div>
           
-          <div className="mt-16 text-center">
-             <Button variant="outline" size="lg">{t("Muat Lebih Banyak Berita", "Load More News")}</Button>
-          </div>
+          {visibleCount < newsItems.length && (
+            <div className="mt-16 text-center">
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={() => setVisibleCount(prev => prev + 4)}
+              >
+                {t("Muat Lebih Banyak Berita", "Load More News")}
+              </Button>
+            </div>
+          )}
         </div>
       </main>
+      
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          {selectedNews && (
+            <>
+              <DialogHeader>
+                <div className="mb-4">
+                  <Badge className="bg-primary/10 text-primary hover:bg-primary/20 mb-3">
+                    {selectedNews.category}
+                  </Badge>
+                  <DialogTitle className="text-3xl font-bold text-gray-900 leading-tight">
+                    {selectedNews.title}
+                  </DialogTitle>
+                  <div className="flex items-center gap-4 text-sm text-gray-500 mt-4">
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4" /> {selectedNews.date}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <User className="w-4 h-4" /> {selectedNews.author}
+                    </span>
+                  </div>
+                </div>
+              </DialogHeader>
+              <div className="space-y-6">
+                <div className="w-full h-80 rounded-lg overflow-hidden">
+                  <img 
+                    src={selectedNews.image} 
+                    alt={selectedNews.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="prose max-w-none">
+                  <p className="text-gray-700 leading-relaxed text-lg mb-4">
+                    {selectedNews.excerpt}
+                  </p>
+                  <p className="text-gray-600 leading-relaxed">
+                    {t(
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+                    )}
+                  </p>
+                </div>
+                <div className="flex gap-3 pt-6 border-t">
+                  <Button 
+                    className="flex-1"
+                    onClick={async () => {
+                      const shareData = {
+                        title: selectedNews.title,
+                        text: selectedNews.excerpt,
+                        url: window.location.href
+                      };
+                      
+                      if (navigator.share) {
+                        try {
+                          await navigator.share(shareData);
+                        } catch (err) {
+                          console.log('Error sharing:', err);
+                        }
+                      } else {
+                        navigator.clipboard.writeText(window.location.href);
+                        alert(t("Link disalin ke clipboard!", "Link copied to clipboard!"));
+                      }
+                    }}
+                  >
+                    {t("Bagikan", "Share")}
+                  </Button>
+                  <Button variant="outline" onClick={() => setIsDialogOpen(false)}>{t("Tutup", "Close")}</Button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+      
       <Footer />
     </div>
   );

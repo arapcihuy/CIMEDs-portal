@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 import { useLanguageStore } from "@/lib/languageStore";
 import faceShieldImg from "@assets/stock_images/medical_face_shield__0399bc52.jpg";
 import implantImg from "@assets/stock_images/orthopedic_bone_impl_5e638388.jpg";
+import { useMemo } from "react";
+import { Link } from "wouter";
 
 const FeaturedProducts = () => {
-  const { t } = useLanguageStore();
+  const { t, language } = useLanguageStore();
 
-  const products = [
+  const products = useMemo(() => [
     {
       id: 1,
       title: t("Face Shield Medis High-Grade", "Medical Grade Face Shield"),
@@ -42,7 +44,7 @@ const FeaturedProducts = () => {
       desc: t("Alat bantu membuka pintu tanpa sentuhan tangan langsung.", "Helper tool for opening doors without direct hand contact."),
       specs: ["Ergonomic", "Universal", "Durable"]
     }
-  ];
+  ], [language, t]);
 
   return (
     <section className="py-24 bg-gray-50">
@@ -54,9 +56,11 @@ const FeaturedProducts = () => {
               {t("Produk hasil riset yang telah dihilirisasi dan digunakan oleh masyarakat.", "Research products that have been downstreamed and used by the community.")}
             </p>
           </div>
-          <a href="/products" className="flex items-center text-primary font-semibold hover:text-blue-700 transition-colors">
-            {t("Lihat Semua Produk", "View All Products")} <ArrowUpRight className="ml-2 w-4 h-4" />
-          </a>
+          <Link href="/products">
+            <a className="flex items-center text-primary font-semibold hover:text-blue-700 transition-colors">
+              {t("Lihat Semua Produk", "View All Products")} <ArrowUpRight className="ml-2 w-4 h-4" />
+            </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

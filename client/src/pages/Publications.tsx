@@ -7,45 +7,69 @@ import { FileText, Download, ExternalLink } from "lucide-react";
 import { useLanguageStore } from "@/lib/languageStore";
 import { useState, useMemo } from "react";
 
-const publications = [
-  {
-    year: 2025,
-    title: "Biocompatibility analysis of porous titanium scaffold produced by 3D printing",
-    authors: "Suyitno, B. Arifvianto, et al.",
-    journal: "Journal of Biomaterials Applications",
-    doi: "10.1177/0885328225123456",
-    abstract: "This study investigates the cell viability and proliferation on porous Ti-6Al-4V scaffolds..."
-  },
-  {
-    year: 2024,
-    title: "Finite element analysis of a new design of femoral stem for Indonesian patients",
-    authors: "M. Mahardika, U.A. Salim, Suyitno",
-    journal: "Medical Engineering & Physics",
-    doi: "10.1016/j.medengphy.2024.103221",
-    abstract: "A novel femoral stem design was proposed based on the morphometric data of Indonesian proximal femurs..."
-  },
-  {
-    year: 2024,
-    title: "Surface modification of stainless steel 316L by electropolishing for coronary stent application",
-    authors: "P. Dewo, T. Wibowo, Suyitno",
-    journal: "Surface and Coatings Technology",
-    doi: "10.1016/j.surfcoat.2024.125678",
-    abstract: "Electropolishing parameters were optimized to achieve surface roughness below 0.2 µm..."
-  },
-  {
-    year: 2023,
-    title: "Mechanical properties of biodegradable magnesium alloy ZK60 for orthopedic implants",
-    authors: "R. Diharjo, Suyitno, et al.",
-    journal: "Materials Science and Engineering: C",
-    doi: "10.1016/j.msec.2023.112233",
-    abstract: "The effect of heat treatment on the degradation rate and mechanical strength of ZK60 alloy was studied..."
-  }
-];
-
 const Publications = () => {
-  const { t } = useLanguageStore();
+  const { t, language } = useLanguageStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedYear, setSelectedYear] = useState("all");
+
+  const publications = useMemo(() => [
+    {
+      year: 2025,
+      title: t(
+        "Analisis Biokompatibilitas Scaffold Titanium Berpori yang Diproduksi dengan 3D Printing",
+        "Biocompatibility analysis of porous titanium scaffold produced by 3D printing"
+      ),
+      authors: "Suyitno, B. Arifvianto, et al.",
+      journal: "Journal of Biomaterials Applications",
+      doi: "10.1177/0885328225123456",
+      abstract: t(
+        "Penelitian ini menyelidiki viabilitas sel dan proliferasi pada scaffold Ti-6Al-4V berpori...",
+        "This study investigates the cell viability and proliferation on porous Ti-6Al-4V scaffolds..."
+      )
+    },
+    {
+      year: 2024,
+      title: t(
+        "Analisis Elemen Hingga Desain Baru Batang Femoral untuk Pasien Indonesia",
+        "Finite element analysis of a new design of femoral stem for Indonesian patients"
+      ),
+      authors: "M. Mahardika, U.A. Salim, Suyitno",
+      journal: "Medical Engineering & Physics",
+      doi: "10.1016/j.medengphy.2024.103221",
+      abstract: t(
+        "Desain batang femoral baru diusulkan berdasarkan data morfometrik femur proksimal Indonesia...",
+        "A novel femoral stem design was proposed based on the morphometric data of Indonesian proximal femurs..."
+      )
+    },
+    {
+      year: 2024,
+      title: t(
+        "Modifikasi Permukaan Stainless Steel 316L dengan Electropolishing untuk Aplikasi Stent Koroner",
+        "Surface modification of stainless steel 316L by electropolishing for coronary stent application"
+      ),
+      authors: "P. Dewo, T. Wibowo, Suyitno",
+      journal: "Surface and Coatings Technology",
+      doi: "10.1016/j.surfcoat.2024.125678",
+      abstract: t(
+        "Parameter electropolishing dioptimalkan untuk mencapai kekasaran permukaan di bawah 0,2 µm...",
+        "Electropolishing parameters were optimized to achieve surface roughness below 0.2 µm..."
+      )
+    },
+    {
+      year: 2023,
+      title: t(
+        "Sifat Mekanik Paduan Magnesium Biodegradable ZK60 untuk Implan Ortopedi",
+        "Mechanical properties of biodegradable magnesium alloy ZK60 for orthopedic implants"
+      ),
+      authors: "R. Diharjo, Suyitno, et al.",
+      journal: "Materials Science and Engineering: C",
+      doi: "10.1016/j.msec.2023.112233",
+      abstract: t(
+        "Pengaruh perlakuan panas pada laju degradasi dan kekuatan mekanik paduan ZK60 dipelajari...",
+        "The effect of heat treatment on the degradation rate and mechanical strength of ZK60 alloy was studied..."
+      )
+    }
+  ], [language, t]);
 
   const filteredPublications = useMemo(() => {
     return publications.filter((pub) => {
@@ -58,7 +82,7 @@ const Publications = () => {
       
       return matchesSearch && matchesYear;
     });
-  }, [searchQuery, selectedYear]);
+  }, [searchQuery, selectedYear, publications]);
   
   return (
     <div className="min-h-screen flex flex-col font-sans">
@@ -124,12 +148,26 @@ const Publications = () => {
                         {paper.abstract}
                       </p>
                       <div className="flex flex-wrap gap-4">
-                        <a href="#" className="flex items-center text-sm text-primary font-semibold hover:underline">
-                          <ExternalLink className="w-4 h-4 mr-1" /> View DOI
+                        <a 
+                          href={`https://doi.org/${paper.doi}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center text-sm text-primary font-semibold hover:underline"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ExternalLink className="w-4 h-4 mr-1" /> {t("Lihat DOI", "View DOI")}
                         </a>
-                        <a href="#" className="flex items-center text-sm text-gray-500 hover:text-gray-900">
-                          <Download className="w-4 h-4 mr-1" /> Download Citation
-                        </a>
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const citation = `${paper.authors}. (${paper.year}). ${paper.title}. ${paper.journal}. ${paper.doi}`;
+                            navigator.clipboard.writeText(citation);
+                            alert(t("Sitasi disalin ke clipboard!", "Citation copied to clipboard!"));
+                          }}
+                          className="flex items-center text-sm text-gray-500 hover:text-gray-900"
+                        >
+                          <Download className="w-4 h-4 mr-1" /> {t("Salin Sitasi", "Copy Citation")}
+                        </button>
                       </div>
                     </div>
                     <div className="hidden md:block p-3 bg-gray-50 rounded-full text-gray-300 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
