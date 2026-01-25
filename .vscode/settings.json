@@ -4,5 +4,6 @@
   "json.maxItemsComputed": 5000,
   "files.associations": {
     "package.json": "json"
-  }
+  },
+  "terminal.integrated.fontFamily": "MesloLGS Nerd Font"
 }
