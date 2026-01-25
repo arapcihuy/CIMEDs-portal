@@ -105,7 +105,9 @@ const Publications = () => {
                <FileText className="w-12 h-12 text-primary" />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">JMDT</h2>
+              <a href="https://jurnal.ugm.ac.id/jmdt" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors inline-block">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">JMDT</h2>
+              </a>
               <h3 className="text-lg font-semibold text-gray-700 mb-3">Journal of Machine Design and Technology</h3>
               <p className="text-gray-600 mb-4">
                 {t(
@@ -118,15 +120,16 @@ const Publications = () => {
                  <Badge variant="outline" className="text-sm px-3 py-1">ISSN: 2087-xxx</Badge>
               </div>
             </div>
-            <a 
-              href="https://jurnal.ugm.ac.id/jmdt" 
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              <Button size="lg" className="rounded-full shadow-lg shadow-primary/20">
+            
+            <Button asChild size="lg" className="rounded-full shadow-lg shadow-primary/20">
+              <a 
+                href="https://jurnal.ugm.ac.id/jmdt" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
                 {t("Kunjungi Website JMDT", "Visit JMDT Website")} <ExternalLink className="ml-2 w-4 h-4" />
-              </Button>
-            </a>
+              </a>
+            </Button>
           </div>
 
           {/* Controls */}
