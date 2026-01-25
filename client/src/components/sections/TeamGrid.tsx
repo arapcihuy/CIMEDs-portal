@@ -8,31 +8,45 @@ const TeamGrid = () => {
 
   const researchers = useMemo(() => [
     {
-      name: "Dr. Suyitno, S.T., M.Sc.",
+      name: "Prof. Dr. Suyitno, S.T., M.Sc.",
       role: t("Kepala Pusat Riset", "Head of Research Center"),
       expertise: "Biomaterials & Biomechanics",
       image: scientistImg,
       linkedin: "#"
     },
     {
-      name: "Dr. Urip Agus Salim",
-      role: t("Koordinator Manufaktur", "Manufacturing Coordinator"),
+      name: "Dr. Budi Arifvianto, S.T., M.Sc.",
+      role: t("Koordinator Penelitian", "Research Coordinator"),
+      expertise: "Surface Engineering & Biomaterials",
+      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2070&auto=format&fit=crop",
+      linkedin: "#"
+    },
+    {
+      name: "Muslim Mahardika, S.T., M.Eng., Ph.D.",
+      role: t("Peneliti Senior", "Senior Researcher"),
+      expertise: "Precision Machining & Manufacturing",
+      image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1964&auto=format&fit=crop",
+      linkedin: "#"
+    },
+    {
+      name: "Dr. Urip Agus Salim, S.T., M.Eng.",
+      role: t("Peneliti Senior", "Senior Researcher"),
       expertise: "Medical Device Design",
       image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=2070&auto=format&fit=crop",
       linkedin: "#"
     },
     {
-      name: "Dr. Budi Arifvianto",
+      name: "Gunawan Setia Prihandana, S.T., M.Eng., Ph.D.",
       role: t("Peneliti Senior", "Senior Researcher"),
-      expertise: "Surface Engineering",
-      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2070&auto=format&fit=crop",
+      expertise: "Micro-nano Fabrication",
+      image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=2070&auto=format&fit=crop",
       linkedin: "#"
     },
     {
-      name: "Dr. Muslim Mahardika",
+      name: "Rini Dharmastiti, S.T., M.Sc., Ph.D.",
       role: t("Peneliti Senior", "Senior Researcher"),
-      expertise: "Precision Machining",
-      image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1964&auto=format&fit=crop",
+      expertise: "Biomedical Engineering",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=2069&auto=format&fit=crop",
       linkedin: "#"
     }
   ], [language, t]);

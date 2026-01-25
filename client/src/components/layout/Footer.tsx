@@ -66,6 +66,17 @@ const Footer = () => {
               </li>
             </ul>
           </div>
+          <div className="mt-6 rounded-lg overflow-hidden border border-gray-700 h-48 w-full">
+               <iframe 
+                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15812.986561131664!2d110.36398906977539!3d-7.765187799999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a584a3294c793%3A0x633d26279f04642c!2sPAU%20UGM!5e0!3m2!1sen!2sid!4v1706600000000!5m2!1sen!2sid" 
+                 width="100%" 
+                 height="100%" 
+                 style={{border:0}} 
+                 allowFullScreen={true} 
+                 loading="lazy" 
+                 referrerPolicy="no-referrer-when-downgrade">
+               </iframe>
+             </div>
 
           {/* Social & Legal */}
           <div>

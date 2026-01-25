@@ -1,6 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FileText, Download, ExternalLink } from "lucide-react";
@@ -98,6 +99,36 @@ const Publications = () => {
         </div>
 
         <div className="container mx-auto px-4 mb-20 max-w-5xl">
+          {/* JMDT Journal Promo */}
+          <div className="bg-white border border-gray-200 rounded-2xl p-8 mb-12 flex flex-col md:flex-row items-center gap-8 shadow-sm">
+            <div className="w-32 h-32 shrink-0 bg-primary/5 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+               <FileText className="w-12 h-12 text-primary" />
+            </div>
+            <div className="flex-1 text-center md:text-left">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">JMDT</h2>
+              <h3 className="text-lg font-semibold text-gray-700 mb-3">Journal of Machine Design and Technology</h3>
+              <p className="text-gray-600 mb-4">
+                {t(
+                  "Publikasi ilmiah terakreditasi SINTA 4 yang dikelola oleh Departemen Teknik Mesin dan Industri UGM. Menerbitkan artikel riset berkualitas di bidang desain mesin dan teknologi.",
+                  "Scientific publication accredited SINTA 4 managed by the Department of Mechanical and Industrial Engineering UGM. Publishing quality research articles in machine design and technology."
+                )}
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+                 <Badge variant="secondary" className="text-sm px-3 py-1">SINTA 4</Badge>
+                 <Badge variant="outline" className="text-sm px-3 py-1">ISSN: 2087-xxx</Badge>
+              </div>
+            </div>
+            <a 
+              href="https://jurnal.ugm.ac.id/jmdt" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <Button size="lg" className="rounded-full shadow-lg shadow-primary/20">
+                {t("Kunjungi Website JMDT", "Visit JMDT Website")} <ExternalLink className="ml-2 w-4 h-4" />
+              </Button>
+            </a>
+          </div>
+
           {/* Controls */}
           <div className="flex flex-col md:flex-row gap-4 mb-10 bg-white p-4 rounded-xl border shadow-xs">
             <div className="flex-1">

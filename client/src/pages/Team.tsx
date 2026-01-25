@@ -24,19 +24,38 @@ const Team = () => {
           </div>
 
           <div className="mb-20">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8 border-b pb-4">{t("Asisten Peneliti", "Research Assistants")}</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="text-center">
-                  <div className="w-24 h-24 mx-auto bg-gray-200 rounded-full mb-3 overflow-hidden">
+            <h2 className="text-2xl font-bold text-gray-900 mb-8 border-b pb-4">{t("Mahasiswa S3", "PhD Students")}</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="text-center group">
+                  <div className="w-20 h-20 mx-auto bg-gray-100 rounded-full mb-3 overflow-hidden border-2 border-transparent group-hover:border-primary transition-colors">
                     <img 
-                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i}`} 
-                      alt="Assistant" 
-                      className="w-full h-full object-cover"
+                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=PhD${i}`} 
+                      alt="PhD Student" 
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all"
                     />
                   </div>
-                  <h4 className="font-bold text-sm text-gray-900">{t("Nama Peneliti", "Researcher")} {i}</h4>
-                  <p className="text-xs text-gray-500">{t("Asisten Peneliti", "Assistant Researcher")}</p>
+                  <h4 className="font-bold text-sm text-gray-900">{t("Nama Mahasiswa", "Student Name")}</h4>
+                  <p className="text-xs text-secondary">{t("Topik Riset", "Research Topic")}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-20">
+            <h2 className="text-2xl font-bold text-gray-900 mb-8 border-b pb-4">{t("Staf Administrasi", "Administrative Staff")}</h2>
+             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[1, 2].map((i) => (
+                <div key={i} className="text-center group">
+                   <div className="w-20 h-20 mx-auto bg-gray-100 rounded-full mb-3 overflow-hidden border-2 border-transparent group-hover:border-primary transition-colors">
+                    <img 
+                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=Admin${i}`} 
+                      alt="Admin" 
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all"
+                    />
+                  </div>
+                  <h4 className="font-bold text-sm text-gray-900">{t("Nama Staf", "Staff Name")}</h4>
+                  <p className="text-xs text-gray-500">{t("Administrasi", "Administration")}</p>
                 </div>
               ))}
             </div>

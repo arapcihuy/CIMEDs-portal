@@ -84,6 +84,53 @@ const Home = () => {
       <main className="flex-grow">
         <Hero />
         
+        {/* About Us Section */}
+        <section className="py-20 bg-white border-b border-gray-100">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col md:flex-row gap-12 items-start">
+              <div className="flex-1">
+                 <h2 className="text-3xl font-bold text-primary mb-6 relative inline-block">
+                  {t("Tentang CIMEDs", "About CIMEDs")}
+                  <span className="absolute -bottom-2 left-0 w-1/3 h-1 bg-secondary rounded-full"></span>
+                </h2>
+                <div className="prose prose-lg text-gray-600">
+                  <p className="mb-4 text-justify">
+                    {t(
+                      "Centre for Innovation of Medical Equipment and Devices (CIMEDs) didirikan pada tahun 2009 sebagai wadah penelitian yang digagas oleh sejumlah dosen Teknik Mesin di Departemen Teknik Mesin dan Industri, Universitas Gadjah Mada. Inisiatif ini lahir dari ketertarikan mereka dalam mengembangkan teknologi biomaterial serta peralatan medis yang inovatif.",
+                      "The Centre for Innovation of Medical Equipment and Devices (CIMEDs) was established in 2009 as a research hub initiated by faculty members of the Department of Mechanical and Industrial Engineering, Universitas Gadjah Mada. This initiative emerged from their strong interest in advancing biomaterial technologies and developing innovative medical devices."
+                    )}
+                  </p>
+                  <p className="text-justify">
+                    {t(
+                      "CIMEDs berperan sebagai kelompok penelitian yang fokus pada riset fundamental maupun aplikatif, dengan tujuan mendukung proses perancangan, pembuatan, dan manufaktur peralatan medis. Dalam perjalanannya, CIMEDs aktif menjalin kolaborasi dengan rumah sakit, klinik, institusi pendidikan, serta industri manufaktur untuk memperkuat kegiatan penelitian dan pengembangan yang dilakukan.",
+                      "CIMEDs functions as a research group dedicated to both fundamental and applied studies, with the aim of supporting the design, development, and manufacturing of medical equipment. Over the years, CIMEDs has actively collaborated with hospitals, clinics, educational institutions, and manufacturing industries to strengthen its research and development activities."
+                    )}
+                  </p>
+                </div>
+              </div>
+              <div className="w-full md:w-1/3">
+                 <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                    <h3 className="font-bold text-gray-900 mb-4">{t("Fokus Kami", "Our Focus")}</h3>
+                    <ul className="space-y-3">
+                      <li className="flex items-center gap-3 text-sm text-gray-600">
+                        <div className="w-2 h-2 rounded-full bg-secondary"></div>
+                        {t("Pengembangan Biomaterial", "Biomaterial Development")}
+                      </li>
+                      <li className="flex items-center gap-3 text-sm text-gray-600">
+                        <div className="w-2 h-2 rounded-full bg-secondary"></div>
+                        {t("Desain Alat Kesehatan", "Medical Device Design")}
+                      </li>
+                      <li className="flex items-center gap-3 text-sm text-gray-600">
+                        <div className="w-2 h-2 rounded-full bg-secondary"></div>
+                         {t("Manufaktur Medis", "Medical Manufacturing")}
+                      </li>
+                    </ul>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
         <FeaturedProducts />
 
         {/* About / Team Section */}
